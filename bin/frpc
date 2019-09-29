@@ -1,0 +1,20 @@
+#!/bin/bash
+
+ROOT_DIR="$(cd "$(dirname $0)" && pwd)"/..
+HOSTNAME=`hostname`
+
+SSH_PORT=`cat /etc/ssh/sshd_config | grep ^Port | awk '{print $2}'`
+HARDWARE=`uname -m`
+
+case $HARDWARE in
+    x86_64)
+        BIN_NAME=frpc_386
+        ;;
+    2)
+        echo "Tuesday"
+        ;;
+    *)
+        echo "未识别的硬件架构"
+esac
+
+HOSTNAME=$HOSTNAME SSH_PORT=$SSH_PORT $ROOT_DIR/bin/hardware.d/$BIN_NAME -c $ROOT_DIR/config/frpc.ini
