@@ -10,8 +10,8 @@ case $HARDWARE in
     x86_64)
         BIN_NAME=frpc_386
         ;;
-    2)
-        echo "Tuesday"
+    armv7l)
+        BIN_NAME=frpc_arm
         ;;
     *)
         echo "未识别的硬件架构"
