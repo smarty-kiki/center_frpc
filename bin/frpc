@@ -4,6 +4,8 @@ ROOT_DIR="$(cd "$(dirname $0)" && pwd)"/..
 HOSTNAME=`hostname`
 
 SSH_PORT=`cat /etc/ssh/sshd_config | grep ^Port | awk '{print $2}'`
+[ ! $SSH_PORT ] && SSH_PORT=22
+
 HARDWARE=`uname -m`
 
 case $HARDWARE in
