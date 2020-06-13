@@ -10,7 +10,7 @@ HARDWARE=`uname -m`
 
 case $HARDWARE in
     x86_64)
-        BIN_NAME=frpc_386
+        BIN_NAME=frpc_amd64
         ;;
     armv7l)
         BIN_NAME=frpc_arm
