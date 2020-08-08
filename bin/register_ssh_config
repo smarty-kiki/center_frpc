@@ -17,5 +17,4 @@ HOSTNAME=`hostname`
 curl --location --request POST 'http://ssh.yao-yang.cn/machines' \
 --form "name=$HOSTNAME" \
 --form "register_key=$REGISTER_KEY" \
---form "public_ip=$PUBLIC_IP" \
 --form "wlan_ip=$WLAN_IP"
