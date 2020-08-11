@@ -11,10 +11,19 @@ then
 fi
 
 PUBLIC_IP=`curl http://ssh.yao-yang.cn/public_ip`
-WLAN_IP=`ifconfig wlan0 |grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | awk '{print $2}'`
+WLAN_IP=`ifconfig wlan0 |grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | awk '{print $2}' | sed -e 's/addr://g'`
 HOSTNAME=`hostname`
 
-curl --location --request POST 'http://ssh.yao-yang.cn/machines' \
---form "name=$HOSTNAME" \
---form "register_key=$REGISTER_KEY" \
---form "wlan_ip=$WLAN_IP"
+if [ "$WLAN_IP" == "" ]
+then
+    curl --location --request POST 'http://ssh.yao-yang.cn/machines' \
+        --form "name=$HOSTNAME" \
+        --form "register_key=$REGISTER_KEY" \
+        --form "wlan_ip=$WLAN_IP"
+else
+    ETH_IP=`ifconfig eth0 |grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | awk '{print $2}' | sed -e 's/addr://g'`
+    curl --location --request POST 'http://ssh.yao-yang.cn/machines' \
+        --form "name=$HOSTNAME" \
+        --form "register_key=$REGISTER_KEY" \
+        --form "wlan_ip=$ETH_IP"
+fi
