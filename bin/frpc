@@ -18,6 +18,9 @@ case $HARDWARE in
     armv6l)
         BIN_NAME=frpc_arm
         ;;
+    aarch64)
+        BIN_NAME=frpc_arm
+        ;;
     *)
         echo "未识别的硬件架构"
 esac
