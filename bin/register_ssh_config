@@ -2,16 +2,9 @@
 
 ROOT_DIR="$(cd "$(dirname $0)" && pwd)"/..
 
-REGISTER_KEY=$1
-
-if [ -z "$REGISTER_KEY" ]
-then
-    echo "用法 $0 注册key"
-    exit
-fi
-
 WLAN_IP=`/sbin/ifconfig wlan0 |grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | awk '{print $2}' | sed -e 's/addr://g'`
 HOSTNAME=`hostname`
+REGISTER_KEY=`/sbin/ip addr show wlan0 | grep ether | awk '{print $2}'`
 
 if [ "$WLAN_IP" == "" ]
 then

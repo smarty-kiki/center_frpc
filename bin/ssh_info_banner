@@ -1,0 +1,24 @@
+#!/bin/sh
+
+ROOT_DIR="$(cd "$(dirname $0)" && pwd)"/..
+HOSTNAME=`hostname`
+
+alias echo_filter='column -t | perl -pe "s/(not_deploy$)|(offline$)|(online$)/\\e[1;34m\$1\\e[0m\\e[1;31m\$2\\e[0m\e[1;32m\$3\\e[0m/gi"'
+
+nginx_config=`cat /etc/nginx/sites-enabled/* | grep server_name`
+
+commands=`cat $ROOT_DIR/config/frpc.supervisor.* | grep command | cut -d '=' -f 2-`
+(
+echo "$commands" | while read -r command; do
+    subdomain=`echo $command | awk '{ print $2 }' `
+    if ps x | grep "$command" | grep -v grep > /dev/null;then
+        echo web $subdomain online
+    else
+	if echo $nginx_config | grep $subdomain > /dev/null; then
+            echo web $subdomain offline
+	else
+            echo web $subdomain not_deploy
+	fi
+    fi
+done
+) | echo_filter
