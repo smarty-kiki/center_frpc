@@ -10,11 +10,11 @@ nginx_config=`cat /etc/nginx/sites-enabled/* | grep server_name`
 webs=`cat /root/.frpc/frpc.web.* | grep '\[web' | cut -d '.' -f 2 | cut -d ']' -f 1`
 (
 echo "$webs" | while read -r web; do
-	if echo $nginx_config | grep $web > /dev/null; then
-            echo web $web offline
+	if echo $nginx_config | grep $web > /dev/null
+    then
+            echo web $web online
 	else
             echo web $web not_deploy
-	fi
     fi
 done
 ) | echo_filter
