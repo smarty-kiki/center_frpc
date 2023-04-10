@@ -7,17 +7,13 @@ alias echo_filter='column -t | perl -pe "s/(not_deploy$)|(offline$)|(online$)/\\
 
 nginx_config=`cat /etc/nginx/sites-enabled/* | grep server_name`
 
-commands=`cat $ROOT_DIR/config/frpc.supervisor.* | grep command | cut -d '=' -f 2-`
+webs=`cat /root/.frpc/frpc.web.* | grep '\[web' | cut -d '.' -f 2 | cut -d ']' -f 1`
 (
-echo "$commands" | while read -r command; do
-    subdomain=`echo $command | awk '{ print $2 }' `
-    if ps x | grep "$command" | grep -v grep > /dev/null;then
-        echo web $subdomain online
-    else
-	if echo $nginx_config | grep $subdomain > /dev/null; then
-            echo web $subdomain offline
+echo "$webs" | while read -r web; do
+	if echo $nginx_config | grep $web > /dev/null; then
+            echo web $web offline
 	else
-            echo web $subdomain not_deploy
+            echo web $web not_deploy
 	fi
     fi
 done
