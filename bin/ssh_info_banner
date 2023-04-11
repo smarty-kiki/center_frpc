@@ -3,6 +3,8 @@
 ROOT_DIR="$(cd "$(dirname $0)" && pwd)"/..
 HOSTNAME=`hostname`
 
+LC_ALL=C
+
 echo CPU `top -bn1 | grep 'Cpu' | awk '{print $2+$4}'`% MEM `free -m | grep 'Mem' | awk '{printf "%2.1f\n", $3/$2*100}'`% DISK `df | grep '/dev/root' | awk '{print $5}'`
 echo
 
