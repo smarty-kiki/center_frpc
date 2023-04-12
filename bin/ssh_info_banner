@@ -5,7 +5,7 @@ HOSTNAME=`hostname`
 
 LC_ALL=C
 
-echo CPU `top -bn1 | grep 'Cpu' | awk '{print $2+$4}'`% MEM `free -m | grep 'Mem' | awk '{printf "%2.1f\n", $3/$2*100}'`% DISK `df | grep '/dev/root' | awk '{print $5}'`
+echo START `uptime -s` CPU `top -bn1 | grep 'Cpu' | awk '{print $2+$4}'`% MEM `free -m | grep 'Mem' | awk '{printf "%2.1f\n", $3/$2*100}'`% DISK `df | grep '/dev/root' | awk '{print $5}'`
 echo
 
 alias echo_filter='column -t | perl -pe "s/(not_deploy$)|(offline$)|(online$)/\\e[1;34m\$1\\e[0m\\e[1;31m\$2\\e[0m\e[1;32m\$3\\e[0m/gi"'
